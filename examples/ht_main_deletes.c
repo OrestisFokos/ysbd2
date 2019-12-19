@@ -65,7 +65,7 @@ extern int *table;
 
 int main() {
   BF_Init(LRU);
-  
+
   CALL_OR_DIE(HT_Init());
 
   int indexDesc = -1;
@@ -82,7 +82,7 @@ int main() {
   int r;
 
   printf("Insert Entries\n");
-  for (int i = 0; i <= 0; i++) {
+  for (int i = 0; i <= indexDesc; i++) {
 
       for (int id = 0; id < RECORDS_NUM; ++id) {
           record.id = id;
@@ -102,14 +102,14 @@ int main() {
           CALL_OR_DIE(HT_PrintAllEntries(i, &id));
 
           printf("Delete Entry with id = %d\n", id);
-          CALL_OR_DIE(HT_DeleteEntry(i, id));
+          //CALL_OR_DIE(HT_DeleteEntry(i, id));
 
           printf("Print Entry with id = %d\n", id);
           CALL_OR_DIE(HT_PrintAllEntries(i, &id)); // must print something like : Entry doesn't exist or nothing at all
       }
 
       CALL_OR_DIE(HT_CloseFile(i));
-  
+
   }
 
   BF_Close();

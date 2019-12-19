@@ -66,21 +66,22 @@ extern int *table;
 int main() {
     //VERSION WITH MULTIPLE INDEX FILES, with a custom number of buckets
   BF_Init(LRU);
-  
+
   CALL_OR_DIE(HT_Init());
 
   int indexDesc = -1;
-  CALL_OR_DIE(HT_CreateIndex("data1.db", BUCKETS_NUM-1));
+  CALL_OR_DIE(HT_CreateIndex("data1.db", BUCKETS_NUM));
   CALL_OR_DIE(HT_OpenIndex("data1.db", &indexDesc));
-  CALL_OR_DIE(HT_CreateIndex("data2.db", BUCKETS_NUM-1));
+  CALL_OR_DIE(HT_CreateIndex("data2.db", BUCKETS_NUM));
   CALL_OR_DIE(HT_OpenIndex("data2.db", &indexDesc));
   CALL_OR_DIE(HT_CreateIndex("data3.db", BUCKETS_NUM));
-  CALL_OR_DIE(HT_OpenIndex("data3.db", &indexDesc)); 
+  CALL_OR_DIE(HT_OpenIndex("data3.db", &indexDesc));
 
-  
+
   Record record;
   srand(12569874);
   int r;
+
 
   printf("Insert Entries\n");
   for (int i = 0; i <= indexDesc; i++) {
@@ -94,9 +95,15 @@ int main() {
           memcpy(record.city, cities[r], strlen(cities[r]) + 1);
           CALL_OR_DIE(HT_InsertEntry(i, record));
       }
-  
+      int id = rand() % RECORDS_NUM ;
+      CALL_OR_DIE(HT_PrintAllEntries(i, &id));
+
+      //printf("Delete Entry with id = %d\n", id);
+      //CALL_OR_DIE(HT_DeleteEntry(i, id));
+      printf("\n");
+
       printf("Print all entries from file in table[%d]\n",i);
-      CALL_OR_DIE(HT_PrintAllEntries(i, NULL)); 
+      CALL_OR_DIE(HT_PrintAllEntries(i, NULL));
       printf("\n\n -------------------------------------\n\n");
   }
 
@@ -104,8 +111,8 @@ int main() {
   for (int i = 0; i <= indexDesc; i++) {
     CALL_OR_DIE(HT_CloseFile(i));
   }
-  
-  
+
+
   BF_Close();
   free(table);
 }
