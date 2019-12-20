@@ -5,8 +5,8 @@
 #include "bf.h"
 #include "hash_file.h"
 
-#define RECORDS_NUM 1700 // you can change it if you want
-#define BUCKETS_NUM 13  // you can change it if you want
+#define RECORDS_NUM 170000 // you can change it if you want
+#define BUCKETS_NUM 1024  // you can change it if you want
 #define FILE_NAME "data.db"
 
 const char* names[] = {
@@ -82,9 +82,8 @@ int main() {
   srand(12569874);
   int r;
 
-
   printf("Insert Entries\n");
-  for (int i = 0; i <= indexDesc; i++) {
+  for (int i = 0; i <= 0; i++) {
       for (int id = 0; id < RECORDS_NUM; ++id) {
           record.id = id;
           r = rand() % 12;
@@ -96,11 +95,14 @@ int main() {
           CALL_OR_DIE(HT_InsertEntry(i, record));
       }
       int id = rand() % RECORDS_NUM ;
+      id = 1005;
       CALL_OR_DIE(HT_PrintAllEntries(i, &id));
 
-      //printf("Delete Entry with id = %d\n", id);
-      //CALL_OR_DIE(HT_DeleteEntry(i, id));
+      printf("Delete Entry with id = %d\n", id);
+      CALL_OR_DIE(HT_DeleteEntry(i, id));
       printf("\n");
+
+      CALL_OR_DIE(HT_PrintAllEntries(i, &id));
 
       printf("Print all entries from file in table[%d]\n",i);
       CALL_OR_DIE(HT_PrintAllEntries(i, NULL));
